@@ -1,36 +1,66 @@
 # Função para encontrar um caminho até os ladrões
 def caminho(lab, cords, ant_cord=[-1, -1]):
+    # Posição atual
     a, b = cords
+
+    # Verificação se alguma recurssiva encontrou a casa desejada
+    ver = False
+
+    # Impedir que o jogo continue com as casa iniciais ou finais obstruídas
     if lab[a][b] == '1':
         return False
-    elif a == 4 and b == 4:
+
+    # Caso vitória inicia a volta da recursiva
+    if a == 4 and b == 4:
         return True
 
-    if a < 4:   # Primeiro é tentado todos para baixo
-        if lab[a + 1][b] == '0':
-            prox_cord = [a + 1, b]
-            return caminho(lab, prox_cord, cords)
+    # Vitória dos COPS
+    if ver:
+        return True
 
-    if b < 4:   # Tentado todos á direita
+    # Trajetória abaixo
+    if a < 4:
+        # Verifica se é possivel essa rota
+        if lab[a + 1][b] == '0':
+            # Impéde a visíta do bloco anterior
+            if ant_cord[0] != a + 1 or ant_cord[1] != b:
+                prox_cord = [a + 1, b]
+                ver = caminho(lab, prox_cord, cords)
+                # Quebra da recursiva
+                return ver
+
+    # Trajetória a direita
+    if b < 4:
         if lab[a][b + 1] == '0':
             if ant_cord[0] != a or ant_cord[1] != b+1:
                 prox_cord = [a, b + 1]
-                return caminho(lab, prox_cord, cords)
+                ver = caminho(lab, prox_cord, cords)
+                return ver
 
-    if b > 0:   # Tentado caminho á esquerda
+    # Trajetória a esquerda
+    if b > 0:
         if lab[a][b - 1] == '0':
-            prox_cord = [a, b - 1]
-            return caminho(lab, prox_cord, cords)
-        else:
-            return False
+            if ant_cord[0] != a or ant_cord[1] != b - 1:
+                prox_cord = [a, b - 1]
+                ver = caminho(lab, prox_cord, cords)
+                return ver
+
+    # Trajetória acima
+    if a > 0:
+        if lab[a - 1][b] == '0':
+            if ant_cord[0] != a - 1 or ant_cord[1] != b:
+                prox_cord = [a - 1, b]
+                ver = caminho(lab, prox_cord, cords)
+                return ver
+
+    # Vitória dos ROBBERS
     return False
 
 
-caso = int(input())
+caso = int(input('Digite a quantidade de casos: '))
 cord = [0, 0]
 for i in range(caso):
     lab = []
-    input()
     for j in range(5):
         lista = input().split()
         lab.append(lista)
