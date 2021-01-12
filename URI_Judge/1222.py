@@ -6,11 +6,18 @@ while True:
     linhas = 1
     contLetras = 0
     for palavra in palavras:
-      if len(palavra) + contLetras <= c:
-        contLetras += len(palavra)
+      if contLetras > 0:
+        if len(palavra) + contLetras + 1 <= c:
+          contLetras += len(palavra) + 1
+        else:
+          contLetras = len(palavra)
+          linhas += 1
       else:
-        contLetras = len(palavra)
-        linhas += 1
-    print(linhas)
+          if len(palavra) + contLetras <= c:
+            contLetras += len(palavra)
+          else:
+            contLetras = len(palavra)
+            linhas += 1
+    print(ceil(linhas/l))
   except EOFError:
     break
