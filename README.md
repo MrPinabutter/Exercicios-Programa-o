@@ -1,2 +1,2 @@
 # Exercicios de programador
-Resolução de exercícios do site URI online ou derivados e tarefaz de POO da universidade
+Resolução de exercícios de programação do site URI online ou outros utilizando Python nas soluções
